@@ -1,19 +1,21 @@
 package io.github.mrjimin.spot.global.security.oauth2
 
+import io.github.mrjimin.spot.domain.user.service.RefreshTokenService
+import io.github.mrjimin.spot.global.common.response.ResponseForm
 import io.github.mrjimin.spot.global.security.JwtTokenProvider
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
-import org.springframework.web.util.UriComponentsBuilder
+import tools.jackson.databind.ObjectMapper
 
 @Component
 class OAuth2SuccessHandler(
     private val jwtTokenProvider: JwtTokenProvider,
-    @Value($$"${app.oauth2.authorized-redirect-uri:http://localhost:3000/oauth2/redirect}")
-    private val redirectUri: String
+    private val refreshTokenService: RefreshTokenService,
+    private val objectMapper: ObjectMapper
+
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
     override fun onAuthenticationSuccess(
@@ -22,16 +24,26 @@ class OAuth2SuccessHandler(
         authentication: Authentication
     ) {
         val oAuth2User = authentication.principal as CustomOAuth2User
-        val email = oAuth2User.user.email
-        val role = "ROLE_${oAuth2User.user.role.name}"
+        val user = oAuth2User.user
 
-        val tokenDto = jwtTokenProvider.createTokenDto(email, role)
+        val tokenDto = jwtTokenProvider.createTokenDto(user.email, user.role.name)
 
-        val targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
-            .queryParam("accessToken", tokenDto.accessToken)
-            .queryParam("refreshToken", tokenDto.refreshToken)
-            .build().toUriString()
+        refreshTokenService.updateRefreshToken(user.email, tokenDto.refreshToken)
 
-        redirectStrategy.sendRedirect(request, response, targetUrl)
+        val responseData = mapOf(
+            "accessToken" to tokenDto.accessToken,
+            "refreshToken" to tokenDto.refreshToken,
+            "nickname" to user.nickname,
+            "email" to user.email
+        )
+
+        val responseForm = ResponseForm.success(
+            data = responseData,
+            message = "소셜 로그인에 성공하였습니다."
+        )
+
+        response.contentType = "application/json;charset=UTF-8"
+        response.status = HttpServletResponse.SC_OK
+        response.writer.write(objectMapper.writeValueAsString(responseForm))
     }
 }

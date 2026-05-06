@@ -14,7 +14,7 @@ class User(
     @Column(unique = true, nullable = false)
     var email: String,
 
-    @Column
+    @Column(nullable = true)
     var password: String? = null,
 
     @Enumerated(EnumType.STRING)
@@ -28,5 +28,6 @@ class User(
     var nickname: String,
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     var role: UserRole = UserRole.USER
 ) : BaseEntity()

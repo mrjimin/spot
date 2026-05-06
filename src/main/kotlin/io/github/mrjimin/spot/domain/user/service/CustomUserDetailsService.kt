@@ -1,11 +1,12 @@
 package io.github.mrjimin.spot.domain.user.service
 
 import io.github.mrjimin.spot.domain.user.repository.UserRepository
+import io.github.mrjimin.spot.global.exception.ErrorCode
+import io.github.mrjimin.spot.global.exception.SpotException
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
-import org.springframework.security.core.userdetails.User as SpringUser
+import org.springframework.security.core.userdetails.User
 
 @Service
 class CustomUserDetailsService(
@@ -13,9 +14,9 @@ class CustomUserDetailsService(
 ) : UserDetailsService {
     override fun loadUserByUsername(email: String): UserDetails {
         val user = userRepository.findByEmail(email)
-            ?: throw UsernameNotFoundException("유저를 찾을 수 없습니다: $email")
+            ?: throw SpotException(ErrorCode.USER_NOT_FOUND)
 
-        return SpringUser
+        return User
             .withUsername(user.email)
             .password(user.password ?: "")
             .authorities(user.role.name)

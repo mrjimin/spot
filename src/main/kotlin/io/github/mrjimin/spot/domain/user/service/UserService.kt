@@ -5,7 +5,7 @@ import io.github.mrjimin.spot.domain.user.entity.LoginProvider
 import io.github.mrjimin.spot.domain.user.entity.User
 import io.github.mrjimin.spot.domain.user.entity.UserRole
 import io.github.mrjimin.spot.domain.user.repository.UserRepository
-import io.github.mrjimin.spot.global.security.oauth2.OAuth2UserInfo
+import io.github.mrjimin.spot.global.security.oauth2.userinfo.OAuth2UserInfo
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -43,6 +43,7 @@ class UserService(
     private fun createForSocial(userInfo: OAuth2UserInfo, provider: LoginProvider): User {
         return userRepository.save(User(
             email = userInfo.getEmail(),
+            password = null,
             nickname = userInfo.getNickname(),
             provider = provider,
             providerId = userInfo.getProviderId(),

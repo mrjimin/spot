@@ -20,9 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 class SecurityConfig(
-    private val authenticationConfiguration: AuthenticationConfiguration,
-    // private val customOAuth2UserService: CustomOAuth2UserService,
-    // private val oAuth2SuccessHandler: OAuth2SuccessHandler
+    private val authenticationConfiguration: AuthenticationConfiguration
 ) {
 
     @Bean
@@ -43,7 +41,7 @@ class SecurityConfig(
 
             authorizeHttpRequests {
                 authorize("/api/auth/**", permitAll)
-                authorize("/api/users/**", permitAll)
+                authorize("/api/users/**", hasRole("USER"))
                 authorize(anyRequest, authenticated)
             }
 

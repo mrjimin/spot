@@ -44,7 +44,7 @@ class JwtTokenProvider {
         val claims = getClaims(token)
 
         val role = claims["role"]?.toString() ?: "USER"
-        val authorities = listOf(SimpleGrantedAuthority(role))
+        val authorities = listOf(SimpleGrantedAuthority("ROLE_$role"))
 
         val principal = User(claims.subject, "", authorities)
 

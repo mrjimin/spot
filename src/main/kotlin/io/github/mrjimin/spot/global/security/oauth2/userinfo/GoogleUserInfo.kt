@@ -1,12 +1,4 @@
-package io.github.mrjimin.spot.global.security.oauth2
-
-abstract class OAuth2UserInfo(
-    protected val attributes: Map<String, Any>
-) {
-    abstract fun getProviderId(): String
-    abstract fun getEmail(): String
-    abstract fun getNickname(): String
-}
+package io.github.mrjimin.spot.global.security.oauth2.userinfo
 
 class GoogleUserInfo(attributes: Map<String, Any>) : OAuth2UserInfo(attributes) {
     override fun getProviderId(): String = attributes["sub"] as String

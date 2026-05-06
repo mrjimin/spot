@@ -3,7 +3,8 @@ package io.github.mrjimin.spot.domain.user.entity
 enum class LoginProvider(val registrationId: String) {
     LOCAL("local"),
     GOOGLE("google"),
-    KAKAO("kakao");
+    // KAKAO("kakao"),
+    NAVER("naver");
 
     companion object {
         fun fromString(id: String): LoginProvider {
