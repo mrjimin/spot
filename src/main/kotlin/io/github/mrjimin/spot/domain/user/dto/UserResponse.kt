@@ -3,7 +3,7 @@ package io.github.mrjimin.spot.domain.user.dto
 import io.github.mrjimin.spot.domain.user.entity.LoginProvider
 import io.github.mrjimin.spot.domain.user.entity.User
 import io.github.mrjimin.spot.domain.user.entity.UserRole
-import java.util.UUID
+import java.util.*
 
 data class UserResponse(
     val id: UUID,

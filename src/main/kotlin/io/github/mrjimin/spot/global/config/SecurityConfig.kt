@@ -1,7 +1,6 @@
 package io.github.mrjimin.spot.global.config
 
 import io.github.mrjimin.spot.domain.user.entity.UserRole
-import io.github.mrjimin.spot.domain.user.service.CustomUserDetailsService
 import io.github.mrjimin.spot.global.filter.JwtAuthenticationFilter
 import io.github.mrjimin.spot.global.security.JwtTokenProvider
 import io.github.mrjimin.spot.global.security.oauth2.CustomOAuth2UserService

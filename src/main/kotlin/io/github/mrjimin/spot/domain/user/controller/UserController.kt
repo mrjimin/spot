@@ -2,7 +2,6 @@ package io.github.mrjimin.spot.domain.user.controller
 
 import io.github.mrjimin.spot.domain.user.dto.UserResponse
 import io.github.mrjimin.spot.domain.user.dto.toResponse
-import io.github.mrjimin.spot.domain.user.entity.User
 import io.github.mrjimin.spot.domain.user.service.UserService
 import io.github.mrjimin.spot.global.common.response.ResponseForm
 import org.springframework.security.core.annotation.AuthenticationPrincipal

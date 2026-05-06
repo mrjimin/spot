@@ -1,7 +1,9 @@
 package io.github.mrjimin.spot.global.security.oauth2
 
 import io.github.mrjimin.spot.domain.user.entity.LoginProvider
-import io.github.mrjimin.spot.global.security.oauth2.userinfo.*
+import io.github.mrjimin.spot.global.security.oauth2.userinfo.GoogleUserInfo
+import io.github.mrjimin.spot.global.security.oauth2.userinfo.NaverUserInfo
+import io.github.mrjimin.spot.global.security.oauth2.userinfo.OAuth2UserInfo
 
 object OAuth2UserInfoFactory {
     fun getReceiver(provider: LoginProvider, attributes: Map<String, Any>): OAuth2UserInfo {
