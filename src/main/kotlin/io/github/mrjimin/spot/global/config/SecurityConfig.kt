@@ -40,7 +40,7 @@ class SecurityConfig(
 
             authorizeHttpRequests {
                 authorize("/api/auth/**", permitAll)
-                authorize("/api/users/**", hasRole("USER"))
+                authorize("/api/users/**", permitAll) // hasRole("USER"))
                 authorize(anyRequest, authenticated)
             }
 

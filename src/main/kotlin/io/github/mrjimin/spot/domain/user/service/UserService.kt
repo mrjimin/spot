@@ -6,9 +6,11 @@ import io.github.mrjimin.spot.domain.user.entity.User
 import io.github.mrjimin.spot.domain.user.entity.UserRole
 import io.github.mrjimin.spot.domain.user.repository.UserRepository
 import io.github.mrjimin.spot.global.security.oauth2.userinfo.OAuth2UserInfo
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true)
@@ -18,6 +20,7 @@ class UserService(
 ) {
 
     fun findAll(): List<User> = userRepository.findAll()
+    fun findById(id: UUID): User? = userRepository.findByIdOrNull(id)
     fun findByEmail(email: String): User? = userRepository.findByEmail(email)
 
     @Transactional
